@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bullet Hell Runner</title>
+        <!-- Metadata for SEO and social sharing -->
+        <meta name="description"
+            content="Bullet Hell: Ascension - A fast-paced, infinite bullet hell survival game. Dodge, grow, and fight your way through endless waves of enemies in this high-intensity shooter. Play now!">
+        <meta name="keywords"
+            content="bullet hell, arcade shooter, infinite runner, survival game, space shooter, dodge, enemy waves, fast-paced action, shooter game, HTML5 game">
+        <meta name="author" content="Sullink Games">
+        <meta property="og:title" content="Bullet Hell: Ascension - Play Now!">
+        <meta property="og:description"
+            content="Dodge enemy fire, grow in power, and survive as long as possible in this high-speed bullet hell shooter!">
+        <meta property="og:image" content="assets/images/blthelpreview.png">
+        <meta property="og:url" content="http://www.sullink.com/blthel.html">
+        <meta name="twitter:card" content="assets/images/blthelpreview.png">
+    <style>
+        @font-face {
+            font-family: 'MainFont';
+            src: url('assets/fonts/font.ttf');
+        }
+
+        @font-face {
+            font-family: 'SmallFont';
+            src: url('assets/fonts/pfont.ttf');
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: black;
+            color: white;
+            font-family: 'MainFont', sans-serif;
+            overflow: hidden;
+        }
+
+        #gameCanvas {
+            display: block;
+            background: radial-gradient(circle, #111, #222);
+            margin: auto;
+        }
+
+        #health {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-family: 'SmallFont', sans-serif;
+            font-size: 20px;
+            color: lime;
+        }
+                header, footer {
+                position: absolute;
+                width: 100%;
+                text-align: center;
+                color: white;
+                font-family: 'SmallFont', sans-serif;
+                background: rgba(0, 0, 0, 0.8);
+                padding: 10px;
+                }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="http://www.sullink.com/sitemap.html">Sullink</a>
+    </header>
+    
+    <canvas id="gameCanvas"></canvas>
+    <div id="health">Health: 100</div>
+    
+    <footer>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <p>&copy; 2025 Sullink.com. All Rights Reserved.</p>
+    </footer>
+
+
+    <script>
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let keys = {};
+        let shooting = false;
+
+        document.addEventListener("keydown", (event) => {
+            keys[event.key] = true;
+            if (event.key === " ") {
+                shooting = !shooting; // Toggle shooting on spacebar press
+            }
+        });
+
+        document.addEventListener("keyup", (event) => {
+            keys[event.key] = false;
+        });
+
+        class Player {
+            constructor() {
+                this.baseSize = 40;
+                this.size = this.baseSize;
+                this.x = canvas.width / 2;
+                this.y = canvas.height - 100;
+                this.baseSpeed = 7;
+                this.speed = this.baseSpeed;
+                this.health = 100;
+                this.shootCooldown = 0;
+            }
+
+            move() {
+                let growthFactor = 1 + (this.health / 500);  
+                let speedFactor = 1 - (this.health / 5000); 
+                
+                this.size = this.baseSize * growthFactor;
+                this.speed = this.baseSpeed * speedFactor;
+
+                let boundaryX = canvas.width * 1.5;
+                let boundaryY = canvas.height * 1.5;
+
+                if (keys['w'] && this.y > -boundaryY) this.y -= this.speed;
+                if (keys['s'] && this.y < boundaryY) this.y += this.speed;
+                if (keys['a'] && this.x > -boundaryX) this.x -= this.speed;
+                if (keys['d'] && this.x < boundaryX) this.x += this.speed;
+            }
+
+            draw() {
+                ctx.fillStyle = "cyan";
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(this.x - this.size / 2, this.y + this.size);
+                ctx.lineTo(this.x + this.size / 2, this.y + this.size);
+                ctx.closePath();
+                ctx.fill();
+            }
+
+            takeDamage(amount) {
+                this.health -= amount;
+                if (this.health <= 0) {
+                    alert("Game Over! Final Health: 0");
+                    document.location.reload();
+                }
+            }
+
+            heal(amount) {
+                this.health += amount;
+            }
+
+            shoot() {
+                if (shooting && this.shootCooldown <= 0) {
+                    playerBullets.push(new Bullet(this.x, this.y, -Math.PI / 2, 10, this.size / 5, "cyan"));
+                    this.shootCooldown = 10;
+                }
+            }
+        }
+
+        class Bullet {
+            constructor(x, y, angle, speed, size, color) {
+                this.x = x;
+                this.y = y;
+                this.angle = angle;
+                this.speed = speed;
+                this.size = size;
+                this.color = color;
+            }
+
+            move() {
+                this.x += Math.cos(this.angle) * this.speed;
+                this.y += Math.sin(this.angle) * this.speed;
+            }
+
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            isOffScreen() {
+                return this.y < -100 || this.x < -100 || this.x > canvas.width + 100;
+            }
+        }
+
+        class Enemy {
+            constructor(x, y, pattern, color) {
+                this.x = x;
+                this.y = y;
+                this.size = 40;
+                this.speed = 2;
+                this.pattern = pattern;
+                this.color = color;
+                this.shootTimer = 0;
+            }
+
+            move() {
+                this.y += this.speed;
+            }
+
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.fillRect(this.x - this.size / 2, this.y - this.size / 2, this.size, this.size);
+            }
+
+            shoot() {
+                if (this.shootTimer % 50 === 0) {
+                    let bullets = [];
+                    if (this.pattern === "spread") {
+                        for (let i = -1; i <= 1; i++) {
+                            bullets.push(new Bullet(this.x, this.y, Math.PI / 2 + (i * 0.3), 4, 10, this.color));
+                        }
+                    } else if (this.pattern === "spiral") {
+                        for (let i = 0; i < 6; i++) {
+                            bullets.push(new Bullet(this.x, this.y, (this.shootTimer / 10) + (i * (Math.PI / 3)), 3, 8, this.color));
+                        }
+                    } else if (this.pattern === "wave") {
+                        bullets.push(new Bullet(this.x, this.y, Math.PI / 2 + Math.sin(this.shootTimer / 20) * 0.5, 5, 12, this.color));
+                    }
+                    return bullets;
+                }
+                return [];
+            }
+        }
+
+        const player = new Player();
+        let playerBullets = [];
+        let enemyBullets = [];
+        let enemies = [];
+
+        function spawnEnemy() {
+            let x = Math.random() * (canvas.width - 100) + 50;
+            let pattern = ["spread", "spiral", "wave"][Math.floor(Math.random() * 3)];
+            let color = ["red", "orange", "purple"][Math.floor(Math.random() * 3)];
+            enemies.push(new Enemy(x, -50, pattern, color));
+        }
+
+        function updateGame() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            player.move();
+            player.draw();
+
+            player.heal(1);
+
+            player.shoot();
+            if (player.shootCooldown > 0) player.shootCooldown--;
+
+            playerBullets.forEach((bullet, index) => {
+                bullet.move();
+                bullet.draw();
+                if (bullet.isOffScreen()) playerBullets.splice(index, 1);
+
+                enemies.forEach((enemy, eIndex) => {
+                    if (
+                        bullet.x > enemy.x - enemy.size / 2 &&
+                        bullet.x < enemy.x + enemy.size / 2 &&
+                        bullet.y > enemy.y - enemy.size / 2 &&
+                        bullet.y < enemy.y + enemy.size / 2
+                    ) {
+                        enemies.splice(eIndex, 1);
+                        playerBullets.splice(index, 1);
+                        player.heal(20);
+                    }
+                });
+            });
+
+            enemies.forEach((enemy, index) => {
+                enemy.move();
+                enemy.draw();
+                enemyBullets.push(...enemy.shoot());
+                enemy.shootTimer++;
+
+                if (enemy.y > canvas.height + 50) {
+                    enemies.splice(index, 1);
+                }
+            });
+
+            enemyBullets.forEach((bullet, index) => {
+                bullet.move();
+                bullet.draw();
+                if (bullet.isOffScreen()) enemyBullets.splice(index, 1);
+
+                if (
+                    bullet.x > player.x - player.size / 2 &&
+                    bullet.x < player.x + player.size / 2 &&
+                    bullet.y > player.y &&
+                    bullet.y < player.y + player.size
+                ) {
+                    player.takeDamage(100);
+                    enemyBullets.splice(index, 1);
+                }
+            });
+
+            document.getElementById("health").innerText = "Health: " + Math.floor(player.health);
+
+            requestAnimationFrame(updateGame);
+        }
+
+        setInterval(spawnEnemy, 2000);
+        updateGame();
+    </script>
+</body>
+
+</html>

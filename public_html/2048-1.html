@@ -1,0 +1,149 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>2048 Game - Sullink</title>
+    <link rel="stylesheet" href="styles2048.css">
+    <script src="script2048.js" charset="utf-8"></script>
+    <style>
+        @font-face {
+            font-family: "CustomFont";
+            src: url("assets/fonts/font.ttf") format("truetype");
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        body {
+            font-family: "CustomFont", Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #222;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        header {
+            padding: 10px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        header a {
+            text-decoration: none;
+            color: #222;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto;
+        }
+
+        h1 {
+            font-size: 80px;
+            line-height: 0.7;
+            color: #776E65;
+            margin: 0;
+        }
+
+        .container {
+            width: 468px;
+            margin-top: 20px;
+        }
+
+        .info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .grid {
+            display: flex;
+            flex-wrap: wrap;
+            width: 456px;
+            height: 456px;
+            background-color: #BBADA0;
+            border: 7px solid #BBADA0;
+            border-radius: 6px;
+            margin-top: 20px;
+        }
+
+        .grid div {
+            width: 100px;
+            height: 100px;
+            margin: 7px;
+            border-radius: 3px;
+            background-color: #EEE4DA;
+            color: #afa192;
+            font-weight: bold;
+            text-align: center;
+            font-size: 60px;
+            line-height: 1.6;
+        }
+
+        .score-container {
+            text-align: center;
+            width: 70px;
+            height: 60px;
+            border-radius: 3px;
+            background-color: #8f7a66;
+            color: #FFFFFF;
+        }
+
+        #score {
+            font-size: 30px;
+        }
+
+        .score-title {
+            font-size: 16px;
+        }
+
+        footer {
+            padding: 10px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        footer a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #222;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="index.html">Sullink</a>
+    </header>
+
+    <main>
+        <section>
+           
+            <p>Join the numbers with arrow keys and get to the <b>2048</b> tile!</p>
+        </section>
+
+        <div class="container">
+            <div class="info">
+                <h1>2048</h1>
+                <div class="score-container">
+                    <div class="score-title">Score</div>
+                    <span id="score">0</span>
+                </div>
+            </div>
+            <div class="grid"></div>
+        </div>
+    </main>
+
+    <footer>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,12 @@
+# robots.txt for sullink.com
+
+# Allow all user agents full access
+User-agent: *
+Allow: /
+
+# Explicitly allow the Internet Archive crawler
+User-agent: ia_archiver
+Allow: /
+
+# Sitemap location (if available, update accordingly)
+Sitemap: https://www.sullink.com/sitemap.xml

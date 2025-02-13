@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <!-- These meta tags are hidden from normal view but reveal it's actually a satirical game if anyone inspects the source -->
+    <meta name="description"
+        content="A comedic game disguised as a job application IQ test. Not an actual job application." />
+    <meta name="keywords" content="humor, fake, IQ test, job application, game" />
+    <meta name="author" content="Your Name or Company" />
+    <!--
+      Disclaimer: This page is purely for entertainment and does not represent a genuine job application.
+      Do not take it seriously as an official recruitment or hiring process.
+    -->
+    <title>Apply Now | Sullink </title>
+
+<style>
+    /* --- From index.html --- */
+    @font-face {
+        font-family: "CustomFont";
+        src: url("assets/fonts/font.ttf") format("truetype");
+        font-weight: normal;
+        font-style: normal;
+    }
+    @font-face {
+    font-family: 'ParagraphFont';
+    src: url('assets/fonts/pfont.ttf') format('truetype');
+    }
+    .paragraph-text {
+    font-family: 'ParagraphFont', sans-serif;
+    }
+
+    body {
+        font-family: "CustomFont", Arial, sans-serif;
+        background-color: #f5f5f5;
+        color: #222;
+        margin: 0;
+        padding: 0;
+        line-height: 1.6;
+        text-align: center;
+    }
+
+    header {
+        padding: 20px;
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    header a {
+        text-decoration: none;
+        color: #222;
+    }
+
+    main {
+        max-width: 700px;
+        margin: 40px auto;
+        padding: 20px;
+        background: #fafafa;
+        border: 1px solid #ddd;
+    }
+
+    h1,
+    h2 {
+        font-weight: normal;
+        margin-bottom: 10px;
+    }
+
+    section {
+        margin-bottom: 20px;
+    }
+
+    footer {
+        padding: 20px;
+        font-size: 14px;
+        color: #555;
+    }
+
+    footer a {
+        margin: 0 10px;
+        text-decoration: none;
+        color: #222;
+    }
+
+    /* --- Additional styling for the game page --- */
+    .game-container {
+        max-width: 500px;
+        margin: 0 auto;
+        margin-top: 20px;
+        background: #fff;
+        padding: 20px;
+        border-radius: 6px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    #reactionTestContainer,
+    #digitSpanContainer,
+    #resultsContainer {
+        display: none;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    button {
+        font-family: 'CustomFont', sans-serif;
+        padding: 10px 20px;
+        margin-top: 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        background: #0a74da;
+        color: #fff;
+        font-size: 16px;
+    }
+
+    button:hover {
+        background: #095caf;
+    }
+
+    #reactionArea {
+        width: 300px;
+        height: 100px;
+        margin: 20px auto;
+        background: #ccc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2em;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    #digitNumber {
+        font-size: 1.2em;
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+
+    #memoryInput {
+        padding: 8px;
+        width: 80%;
+        font-size: 1em;
+        text-align: center;
+    }
+
+    #resultMessage {
+        font-size: 1.5em;
+        font-weight: bold;
+        margin: 20px;
+    }
+</style>
+
+</head>
+
+<body>
+    <header>
+        <a href="index.html">Sullink</a>
+    </header>
+    <h1>Looking for a job? Look no further.</h1>
+    <div class="container">
+<p>
+    Welcome, candidate, to our performance-based evaluation. We appreciate your compliance
+    in completing each phase, as it’s integral to our vision.
+</p>
+
+        <!-- Reaction Test Container -->
+        <div id="reactionTestContainer">
+            <h2>Question 1: Proactive Reflex Calibration </h2>
+            <p>Click the button below to start. Focus, the box will turn green. Click it
+                 once it changes</p>
+            <button id="startReactionBtn">Start Calibration Test</button>
+            <div id="reactionArea">WAIT...</div>
+            <p id="reactionTimeDisplay"></p>
+            <button id="toDigitSpanBtn" style="display:none;">Proceed to Next Question</button>
+        </div>
+
+        <!-- Digit Span Container -->
+        <div id="digitSpanContainer">
+            <h2>Question 2: Learning ability</h2>
+            <p>Learn the number. </p>
+            <div id="digitNumber"></div>
+            <input id="memoryInput" type="text" placeholder="Enter the number" />
+            <br />
+            <button id="submitDigitsBtn">Submit</button>
+        </div>
+
+        <!-- Results Container -->
+        <div id="resultsContainer">
+            <div id="resultMessage"></div>
+        </div>
+    </div>
+
+    <script>
+        // -------------------------
+    // GLOBAL VARIABLES
+    // -------------------------
+    var startTime, endTime;
+    var testActive = false; // Controls when the reaction area can be clicked
+    var randomNumber = "";
+
+    // -------------------------
+    // ON PAGE LOAD
+    // -------------------------
+    window.onload = function() {
+      document.getElementById("reactionTestContainer").style.display = "block";
+
+      document.getElementById("startReactionBtn").addEventListener("click", startReactionTest);
+      document.getElementById("reactionArea").addEventListener("click", measureReactionTime);
+      document.getElementById("toDigitSpanBtn").addEventListener("click", showDigitSpanTest);
+      document.getElementById("submitDigitsBtn").addEventListener("click", checkDigitInput);
+    };
+
+    // -------------------------
+    // REACTION TIME TEST
+    // -------------------------
+    function startReactionTest() {
+      document.getElementById("reactionTimeDisplay").textContent = "";
+      var reactionArea = document.getElementById("reactionArea");
+      reactionArea.style.background = "#ccc";
+      reactionArea.textContent = "WAIT...";
+      testActive = false;
+
+      // Random Delay (between 2-5 seconds)
+      var delay = Math.floor(Math.random() * 3000) + 2000;
+
+      // After the delay, turn box green and mark startTime
+      setTimeout(function() {
+        testActive = true;
+        reactionArea.style.background = "green";
+        reactionArea.textContent = "CLICK!";
+        startTime = new Date().getTime();
+      }, delay);
+    }
+
+    function measureReactionTime() {
+      var reactionArea = document.getElementById("reactionArea");
+      if (!testActive) {
+        // If user clicks too early
+        if (reactionArea.style.background !== "green") {
+          document.getElementById("reactionTimeDisplay").textContent = "Too soon! Try again.";
+        }
+        return;
+      }
+      endTime = new Date().getTime();
+      var reactionTime = endTime - startTime;
+      document.getElementById("reactionTimeDisplay").textContent = "Your reaction time: " + reactionTime + " ms";
+      reactionArea.style.background = "#ccc";
+      reactionArea.textContent = "DONE";
+      testActive = false;
+
+      // Reveal "Proceed to Next Question" button
+      document.getElementById("toDigitSpanBtn").style.display = "inline-block";
+    }
+
+    // -------------------------
+    // SHOW DIGIT SPAN TEST
+    // -------------------------
+    function showDigitSpanTest() {
+      document.getElementById("reactionTestContainer").style.display = "none";
+      document.getElementById("digitSpanContainer").style.display = "block";
+
+      // Generate a 20-digit random number
+      randomNumber = "";
+      for (var i = 0; i < 20; i++) {
+        randomNumber += Math.floor(Math.random() * 10);
+      }
+
+      var digitNumberElement = document.getElementById("digitNumber");
+      digitNumberElement.style.display = "block";
+      digitNumberElement.textContent = randomNumber;
+
+      // Hide the number after 3 seconds
+      setTimeout(function() {
+        digitNumberElement.style.display = "none";
+      }, 3000);
+    }
+
+    // -------------------------
+    // CHECK DIGIT INPUT
+    // -------------------------
+    function checkDigitInput() {
+      var userInput = document.getElementById("memoryInput").value.trim();
+      if (userInput === randomNumber) {
+        showResults(true);
+      } else {
+        showResults(false);
+      }
+    }
+
+    // -------------------------
+    // SHOW RESULTS
+    // -------------------------
+    function showResults(success) {
+      document.getElementById("digitSpanContainer").style.display = "none";
+      document.getElementById("resultsContainer").style.display = "block";
+
+      if (success) {
+        document.getElementById("resultMessage").textContent = "Your application has been submitted. We will reach out in one to 52 weeks.";
+      } else {
+        document.getElementById("resultMessage").textContent = "Thanks for applying. You're not a fit this time, but feel free to reapply in two weeks. Best wishes in your job search.";
+      }
+    }
+    </script>
+
+
+<p class="paragraph-text">
+    Sullink ARR is honored to present our latest executive opportunity: Lead Principal of Venture-Grade Paradigm
+    Synthesis. This eminent position is the lynchpin of our multilayered organizational framework, forging
+    groundbreaking synergy among vertically integrated ecosystems and facilitating the harmonious confluence of 
+    footprints across dynamic, intangible market streams.
+</p>
+
+<p class="paragraph-text">
+    In this highly visible role, the incumbent is entrusted with overseeing multi-jurisdictional compliance complexities
+    and synchronizing cyclical synergy calibrations with far-reaching external stakeholders. The right candidate will
+    display a talent for drafting macro-level governance guidelines which perpetually adapt to the tide of
+    shifting regulatory structures—ensuring complete brand alignment to thoroughly tangible business frontiers.
+    Day-to-day activities, will definitely involve conceptualizing, recalibrating, and
+    recontextualizing various driven deliverables—all to reinforce our paramount corporate continuum.
+</p>
+
+<p class="paragraph-text">
+    Moreover, we invite the future Lead Principal to perpetuate next-generation metrics for stakeholder satisfaction,
+    refine best-practice articulation, and integrate legally noncommittal disclaimers across all governance
+    scaffolding. Through these decisive efforts our self-reinforcing legacy
+    frameworks will remain righteously anchored to tangible compliance interplay, forging the indefinite
+    brand trajectory anchoring.
+</p>
+
+<p class="paragraph-text">
+    Of course, as a friendly reminder, please note that Sullink is a visionary entity currently maintaining a staff of
+    exactly zero—this page exists primarily as a social commentary piece. Nonetheless, we pride ourselves on
+    projecting the confident aura of a rapidly scaling enterprise. While the precise nature of day-to-day operations is
+    shrouded in labyrinthine corporate jargon, rest assured it involves every conceivable instance of “global
+    facilitation” and “holistic enterprise alignment” known to modern business.
+</p>
+
+<p class="paragraph-text">
+    If you believe your skill set aligns with our unwavering commitment to tangible market coverage, definite
+    synergy calibrations, and post-rhetorical organizational expansion, we welcome you to take part in this
+    thoroughly elaborate yet ultimately symbolic application process. After all, the best part of being an industry
+    leader is making sure everyone knows just how expansive our intangible brand footprints really are.
+</p>
+
+        <footer>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <p>&copy; 2025 Sullink.com. All Rights Reserved.</p>
+        </footer>
+</body>
+
+
+
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sullink - Innovative Solutions</title>
+    <style>
+        /* Import custom font */
+        @font-face {
+            font-family: "CustomFont";
+            src: url("assets/fonts/font.ttf") format("truetype");
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        /* Global styles */
+        body {
+            margin: 0;
+            font-family: "CustomFont", Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header styles */
+        header {
+            background: #333;
+            color: #fff;
+            padding: 1rem 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+            overflow: hidden;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #ddd;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: url('assets/images/hero.jpg') no-repeat center center/cover;
+            height: 500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin: 0;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-top: 1rem;
+        }
+
+        /* Features Section */
+        section.features {
+            background: #fff;
+            padding: 2rem 0;
+        }
+
+        .features-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .feature {
+            flex: 1 1 30%;
+            background: #f9f9f9;
+            margin: 1rem;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature h2 {
+            margin-top: 0;
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        /* Footer styles */
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1rem 0;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .features-grid {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .feature {
+                width: 80%;
+                margin: 1rem 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header / Navigation -->
+    <header>
+        <div class="container">
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">Portfolio</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Welcome to Sullink</h1>
+            <p>Innovative Solutions for Modern Problems</p>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="features-grid">
+                <div class="feature">
+                    <h2>Quality Design</h2>
+                    <p>We provide cutting-edge design solutions that seamlessly blend aesthetics with functionality.</p>
+                </div>
+                <div class="feature">
+                    <h2>Reliable Performance</h2>
+                    <p>Our systems are engineered for speed and reliability, ensuring top-notch performance at all
+                        times.</p>
+                </div>
+                <div class="feature">
+                    <h2>Customer Support</h2>
+                    <p>Our dedicated team is here to support you every step of the way with expert assistance.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Sullink.com. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+
+</html>

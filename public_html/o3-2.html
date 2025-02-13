@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>O3 - Sullink</title>
+  <style>
+    /* Import custom font */
+    @font-face {
+      font-family: "CustomFont";
+      src: url("assets/fonts/font.ttf") format("truetype");
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    /* Global styles */
+    body {
+      margin: 0;
+      font-family: "CustomFont", Arial, sans-serif;
+      background-color: #f5f5f5;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* Header styles: "SULLINK" functions as a home button */
+    header {
+      background: #333;
+      padding: 1rem 0;
+      text-align: center;
+    }
+
+    header a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 2rem;
+    }
+
+    header a:hover {
+      color: #ddd;
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      background: url('assets/images/hero.jpg') no-repeat center center/cover;
+      /* Fallback background color if image not loaded */
+      background-color: #555;
+      height: 500px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    /* Optional overlay to improve text visibility */
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1;
+    }
+
+    .hero .content {
+      position: relative;
+      z-index: 2;
+      color: #fff;
+      padding: 0 1rem;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      margin: 0;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin-top: 1rem;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+    }
+
+    /* Main Content Section (example content) */
+    .content-section {
+      padding: 2rem;
+      background: #fff;
+      margin: 1rem auto;
+      max-width: 1200px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Footer styles with web map linking only to About and Contact */
+    footer {
+      background: #333;
+      color: #fff;
+      text-align: center;
+      padding: 1rem 0;
+    }
+
+    .footer-nav {
+      list-style: none;
+      padding: 0;
+      margin: 0.5rem 0;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+    }
+
+    .footer-nav li a {
+      color: #fff;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-nav li a:hover {
+      color: #ddd;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header with SULLINK as a home button linking to index.html -->
+  <header>
+    <a href="index.html">SULLINK</a>
+  </header>
+
+  <!-- Hero Section with visible text and overlay for clarity -->
+  <section class="hero">
+    <div class="content">
+      <!-- Hero text -->
+      <h1>Welcome to Sullink</h1>
+      <p>Innovative Solutions for Modern Problems</p>
+    </div>
+  </section>
+
+  <!-- Main Content Section: example content for the O3 page -->
+  <section class="content-section">
+    <h2>O3 Page</h2>
+    <p>This is the O3 page on Sullink. Here you can explore the latest projects, ideas, and innovations that we are
+      passionate about. Our platform is designed to foster creativity and deliver cutting-edge solutions for modern
+      challenges.</p>
+    <!-- Add more content as needed for the O3 page -->
+  </section>
+
+  <!-- Footer with a web map linking only to About and Contact -->
+  <footer>
+    <nav>
+      <ul class="footer-nav">
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <p>&copy; 2025 Sullink.com. All Rights Reserved.</p>
+  </footer>
+</body>
+
+</html>
